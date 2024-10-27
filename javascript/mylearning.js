@@ -91,11 +91,24 @@ function updateStreakAndGoals(userData) {
     // Update weekly goal
     const weeklyGoalProgress = document.querySelector('.weekly-goal .progress-bar');
     if (weeklyGoalProgress) {
-        const weeklyPercentage = (userData.weeklyGoal.daysCompleted / userData.weeklyGoal.target) * 100;
+        // Calculate the weekly percentage completion
+        const daysCompleted = userData.weeklyGoal.daysCompleted || 0; // Default to 0 if undefined
+        const target = userData.weeklyGoal.target || 1; // Default to 1 to avoid division by zero
+        const weeklyPercentage = (daysCompleted / target) * 100;
+    
+        // Update the progress bar width
         weeklyGoalProgress.style.width = `${weeklyPercentage}%`;
-        weeklyGoalProgress.textContent = 
-            `${userData.weeklyGoal.daysCompleted} / ${userData.weeklyGoal.target} days`;
+        weeklyGoalProgress.setAttribute('aria-valuenow', daysCompleted); // Update aria-valuenow for accessibility
+        weeklyGoalProgress.textContent = `${daysCompleted} / ${target} days`;
+    
+        // Update the paragraph to show how many more days to reach the goal
+        const goalProgressText = document.querySelector('#goal-progress');
+        if (goalProgressText) {
+            const daysRemaining = target - daysCompleted;
+            goalProgressText.textContent = `Study ${daysRemaining} more days to reach your weekly goal!`;
+        }
     }
+    
 }
 
 function getLanguageFlag(language) {
