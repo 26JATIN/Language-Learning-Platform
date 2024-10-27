@@ -1,0 +1,282 @@
+/* Custom CSS for Linguify Language Learning Website */
+
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #140f0a;
+    margin: 0;
+
+    padding: 0;
+}
+
+.section-title {
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+/* Header Styles */
+.header {
+    background-color: #b3aac1;
+    box-shadow: 0 2px 10px rgba(70, 58, 58, 0.1);
+}
+
+.navbar-brand img {
+    max-height: 40px;
+    font-size: 18px;
+
+    font-weight: 600;
+
+    color: #333;
+}
+.hero.section {
+    background: linear-gradient(135deg, #4a6182 0%, #8d9ebb 100%);
+    padding: 6rem 0;
+    
+}
+.header.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(94, 10, 10, 0.264);
+}
+.nav-link {
+    font-weight: 600;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #769987;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #8763a4 0%, #76c0c3 100%);
+    padding: 6rem 0;
+    
+}
+
+.hero h1 {
+    font-size: 48px;
+
+    font-weight: 700;
+
+    margin-bottom: 2rem;
+    
+}
+
+.language-selector .form-select {
+    border-radius: 25px;
+    color: #6f7e90;
+}
+
+/* Feature Cards */
+.feature-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+
+    transition: transform 0.3s ease;
+}
+.feature-card.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+
+    color: #86919c;
+
+    margin-bottom: 1rem;
+}
+
+/* AI Tutor Section */
+#ai-tutor {
+    background-color: #f8f9fa;
+}
+
+.ai-tutor-demo img {
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Global Community Section */
+.community-card {
+    text-align: center;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.community-card:hover {
+    transform: translateY(-5px);
+}
+
+.community-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Pricing Section */
+.pricing-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pricing-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 3rem;
+
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card.featured {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.pricing-card .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 1rem 0;
+}
+
+.pricing-card .price span {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.pricing-card ul {
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+.pricing-card ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #007bff;
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 36px;
+    transition: background-color 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero {
+        padding: 4rem 0;
+        gap: 50px;
+        
+    }
+
+    .feature-card, .community-card, .pricing-card {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Custom Buttons */
+.btn-primary {
+    background-color: #254970;
+    border-color: #007bff;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #263d56;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(79, 89, 99, 0.3);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero h1, .hero p, .hero .btn {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.feature-card, .community-card, .pricing-card {
+    animation: fadeInUp 0.8s ease-out;
+} 
