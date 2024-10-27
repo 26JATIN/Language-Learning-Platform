@@ -3,83 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Linguify</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="CSS/styles.css" rel="stylesheet">
-
+    <title>Linguify - Language Learning Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+           
+            if (window.location.hash === '#signup') {
+                toggleForms('signup');
+            }
+            
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('signupForm')) {
+                toggleForms('signup');
+            }
+        });
+        </script>
     <style>
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
+        .auth-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        .login-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #254970;
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
-        .form-floating {
-            margin-bottom: 20px;
+        
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
         }
-        .btn-login {
+        
+        .form-input {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            background: transparent;
         }
-        .login-form {
+        
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .input-label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            transition: all 0.2s ease;
+            background: white;
+            padding: 0 0.25rem;
+        }
+        
+        .form-input:focus + .input-label,
+        .form-input:not(:placeholder-shown) + .input-label {
+            top: 0;
+            transform: translateY(-50%) scale(0.85);
+            color: #667eea;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .primary-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .link {
+            color: #667eea;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .link:hover {
+            color: #764ba2;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23718096'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
+            padding-right: 2.5rem;
+        }
+        
+        .form-fade {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .form-fade.hidden {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(10px);
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="login-container">
-            <h2 class="login-title">Welcome Back to Linguify</h2>
-            <form id="loginForm">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" placeholder="Username" required>
-                    <label for="username">Username</label>
+    <div class="auth-container flex items-center justify-center p-4">
+        <div class="form-container w-full max-w-md p-8">
+            <!-- Login Form -->
+            <form id="loginForm" class="form-fade space-y-6">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Welcome Back to Linguify</h2>
+                
+                <div class="input-wrapper">
+                    <input type="text" class="form-input" id="loginUsername" name="username" placeholder=" " required>
+                    <label for="loginUsername" class="input-label">Username</label>
+                    <div class="error-message" id="loginUsernameError"></div>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" placeholder="Password" required>
-                    <label for="password">Password</label>
+                
+                <div class="input-wrapper">
+                    <input type="password" class="form-input" id="loginPassword" name="password" placeholder=" " required>
+                    <label for="loginPassword" class="input-label">Password</label>
+                    <div class="error-message" id="loginPasswordError"></div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-login">Log In</button>
+                
+                <button type="submit" class="primary-button">
+                    Log In
+                </button>
+                
+                <p class="text-center text-gray-600">
+                    Don't have an account? 
+                    <a href="#" class="link" onclick="toggleForms('signup'); return false;">Sign up</a>
+                </p>
             </form>
-            <p class="text-center mt-3">
-                Don't have an account? <a href="signup.html">Sign up</a>
-            </p>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="form-fade hidden space-y-6">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Join Linguify</h2>
+                
+                <div class="input-wrapper">
+                    <input type="text" class="form-input" id="signupUsername" name="username" placeholder=" " required>
+                    <label for="signupUsername" class="input-label">Username</label>
+                    <div class="error-message" id="signupUsernameError"></div>
+                </div>
+                
+                <div class="input-wrapper">
+                    <input type="password" class="form-input" id="signupPassword" name="password" placeholder=" " required>
+                    <label for="signupPassword" class="input-label">Password</label>
+                    <div class="error-message" id="signupPasswordError"></div>
+                </div>
+                
+                <div class="input-wrapper">
+                    <select class="form-input" id="language" name="language" required>
+                        <option value="" disabled selected></option>
+                        <option value="spanish">Spanish</option>
+                        <option value="french">French</option>
+                        <option value="german">German</option>
+                        <option value="italian">Italian</option>
+                        <option value="portuguese">Portuguese</option>
+                    </select>
+                    <label for="language" class="input-label">Choose Language</label>
+                    <div class="error-message" id="languageError"></div>
+                </div>
+                
+                <button type="submit" class="primary-button">
+                    Sign Up
+                </button>
+                
+                <p class="text-center text-gray-600">
+                    Already have an account? 
+                    <a href="#" class="link" onclick="toggleForms('login'); return false;">Log in</a>
+                </p>
+            </form>
         </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // User data structure
+        const defaultUserData = {
+            streak: 0,
+            lastLoginDate: null,
+            progress: {
+                overall: 0,
+                lessons: [],
+                vocabulary: [],
+                grammar: []
+            },
+            dailyGoal: {
+                minutes: 20,
+                completed: 0
+            },
+            weeklyGoal: {
+                daysCompleted: 0,
+                target: 5
+            },
+            achievements: []
+        };
+
+        // Form toggle function
+        function toggleForms(showForm) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            // Reset forms and errors
+            loginForm.reset();
+            signupForm.reset();
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            if (showForm === 'signup') {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+            } else {
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            }
+        }
+
+        // Validation functions
+        function validateUsername(username) {
+            const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+            return usernameRegex.test(username);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function hideError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.style.display = 'none';
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            let isValid = true;
 
-            // Get users from localStorage
-            const users = JSON.parse(localStorage.getItem('users')) || {};
-
-            // Find user by username and validate password
-            const user = users[username];
-            
-            if (user && user.password === password) {
-                // Store current user
-                localStorage.setItem('currentUser', username);
-                // Redirect to learning page
-                window.location.href = 'mylearning.html';
+            // Validate username
+            if (!validateUsername(username)) {
+                showError('loginUsernameError', 'Invalid username format');
+                isValid = false;
             } else {
-                alert('Invalid username or password');
+                hideError('loginUsernameError');
+            }
+
+            // Validate password
+            if (!validatePassword(password)) {
+                showError('loginPasswordError', 'Password must be at least 6 characters');
+                isValid = false;
+            } else {
+                hideError('loginPasswordError');
+            }
+
+            if (isValid) {
+                const users = JSON.parse(localStorage.getItem('users')) || {};
+                const user = users[username];
+
+                if (!user || user.password !== password) {
+                    showError('loginUsernameError', 'Invalid username or password');
+                    return;
+                }
+
+                // Update last login and save
+                user.lastLoginDate = new Date().toISOString();
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Save current user
+                localStorage.setItem('currentUser', username);
+                
+                // Redirect to learning dashboard
+                window.location.href = 'mylearning.html';
+            }
+        });
+
+        // Signup form handler
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const language = document.getElementById('language').value;
+            let isValid = true;
+
+            // Validate username
+            if (!validateUsername(username)) {
+                showError('signupUsernameError', 'Username must be 3-20 characters and contain only letters, numbers, and underscores');
+                isValid = false;
+            } else {
+                hideError('signupUsernameError');
+            }
+
+            // Validate password
+            if (!validatePassword(password)) {
+                showError('signupPasswordError', 'Password must be at least 6 characters');
+                isValid = false;
+            } else {
+                hideError('signupPasswordError');
+            }
+
+            // Validate language selection
+            if (!language) {
+                showError('languageError', 'Please select a language');
+                isValid = false;
+            } else {
+                hideError('languageError');
+            }
+
+            if (isValid) {
+                const users = JSON.parse(localStorage.getItem('users')) || {};
+
+                // Check if username exists
+                if (users[username]) {
+                    showError('signupUsernameError', 'Username already exists');
+                    return;
+                }
+
+                // Create new user
+                const newUser = {
+                    ...defaultUserData,
+                    username: username,
+                    password: password,
+                    activeLanguage: language,
+                    languages: {
+                        [language]: {
+                            level: 'A1',
+                            progress: 0,
+                            lessonsCompleted: 0,
+                            startDate: new Date().toISOString()
+                        }
+                    },
+                    createdAt: new Date().toISOString(),
+                    lastLoginDate: new Date().toISOString()
+                };
+
+                // Save user data
+                users[username] = newUser;
+                localStorage.setItem('users', JSON.stringify(users));
+
+                alert('Account created successfully! Please log in.');
+                toggleForms('login');
             }
         });
     </script>
