@@ -100,9 +100,9 @@ function updateStreakAndGoals(userData) {
 
 function getLanguageFlag(language) {
     const flagMap = {
-        'spanish': 'Spain.png',
-        'french': 'France.png',
-        'german': 'Germany.png'
+        'spanish': 'photos/Spain.png',
+        'french': 'photos/France.png',
+        'german': 'photos/Germany.png'
     };
     return flagMap[language.toLowerCase()] || 'default-flag.png';
 }
