@@ -80,13 +80,25 @@ function updateStreakAndGoals(userData) {
     }
 
     // Update daily goal progress
-    const dailyGoalProgress = document.querySelector('.progress-bar');
-    if (dailyGoalProgress) {
-        const percentage = (userData.dailyGoal.completed / userData.dailyGoal.minutes) * 100;
-        dailyGoalProgress.style.width = `${percentage}%`;
-        dailyGoalProgress.textContent = 
-            `${userData.dailyGoal.completed} / ${userData.dailyGoal.minutes} minutes`;
+const dailyGoalProgress = document.querySelector('.card .progress-bar'); // Make selector more specific
+if (dailyGoalProgress) {
+    const completed = userData.dailyGoal.completed || 0; // Default to 0 if undefined
+    const target = userData.dailyGoal.minutes || 1; // Default to 1 to avoid division by zero
+    const percentage = (completed / target) * 100;
+
+    // Update the progress bar width
+    dailyGoalProgress.style.width = `${percentage}%`;
+    dailyGoalProgress.setAttribute('aria-valuenow', completed); // Update aria-valuenow for accessibility
+    dailyGoalProgress.textContent = `${completed} / ${target} minutes`;
+
+    // Update the message below the progress bar
+    const goalProgressText = dailyGoalProgress.closest('.card-body').querySelector('p.mb-0');
+    if (goalProgressText) {
+        const minutesRemaining = target - completed;
+        goalProgressText.textContent = `Study ${minutesRemaining} more minutes to reach your daily goal!`;
     }
+}
+
 
     // Update weekly goal
     const weeklyGoalProgress = document.querySelector('.weekly-goal .progress-bar');
