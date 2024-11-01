@@ -24,7 +24,7 @@
     --user-message-text: white;
     --border-color: #404040;
     --input-border: #4a90e2;
-    --header-gradient: linear-gradient(135deg, #4a90e2 0%, #5c6bc0 100%);
+    --header-gradient: linear-gradient(135deg, #4a3163 0%, #3a5f60 100%);
 }
 
 body {
