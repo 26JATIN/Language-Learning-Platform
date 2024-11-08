@@ -314,3 +314,16 @@ body {
         margin-bottom: 2rem;
     }
 }
+/* Hide dark logo by default in light mode */
+.theme-logo.dark-logo {
+    display: none;
+}
+
+/* Show dark logo and hide light logo in dark mode */
+[data-theme='dark'] .theme-logo.dark-logo {
+    display: inline-block;
+}
+
+[data-theme='dark'] .theme-logo.light-logo {
+    display: none;
+}
