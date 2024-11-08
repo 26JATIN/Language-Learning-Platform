@@ -1,6 +1,7 @@
 // Initialize dashboard when page loads
 document.addEventListener('DOMContentLoaded', initializeDashboard);
 
+// First, let's modify the user data structure to include lessons
 function initializeDashboard() {
     const currentUsername = localStorage.getItem('currentUser');
     const users = JSON.parse(localStorage.getItem('users')) || {};
@@ -11,25 +12,106 @@ function initializeDashboard() {
     }
 
     const userData = users[currentUsername];
-
-    // Update welcome message
-    const welcomeMessage = document.querySelector('#welcome-message');
-    if (welcomeMessage) {
-        welcomeMessage.textContent = `Welcome back, ${userData.username}!`;
+        // Update welcome message
+        const welcomeMessage = document.querySelector('#welcome-message');
+        if (welcomeMessage) {
+            welcomeMessage.textContent = `Welcome back, ${userData.username}!`;
+        }
+    
+    
+    // Initialize lessons if they don't exist
+    if (!userData.languages[userData.activeLanguage].lessons) {
+        userData.languages[userData.activeLanguage].lessons = [
+            {
+                id: 1,
+                title: "Describing Your City",
+                description: "Learn vocabulary and phrases to describe urban environments.",
+                progress: 0,
+                completed: false
+            },
+            {
+                id: 2,
+                title: "Past Tense - Irregular Verbs",
+                description: "Master the tricky irregular verbs in the past tense.",
+                progress: 0,
+                completed: false
+            }
+        ];
+        users[currentUsername] = userData;
+        localStorage.setItem('users', JSON.stringify(users));
     }
 
-    // Update language display
-    const activeLanguage = userData.activeLanguage;
-    const languageData = userData.languages[activeLanguage];
-
-    // Update language dropdown
-    updateLanguageSelector(userData, activeLanguage);
-
-    // Update progress displays
-    updateProgressDisplays(userData, languageData);
-
-    // Update streak and goals
+    // Update existing functions
+    updateLanguageSelector(userData, userData.activeLanguage);
+    updateProgressDisplays(userData, userData.languages[userData.activeLanguage]);
     updateStreakAndGoals(userData);
+    renderLessons(userData); // Add this new function call
+}
+
+// Add new function to render lessons
+function renderLessons(userData) {
+    const lessonsContainer = document.querySelector('#pills-lessons');
+    if (!lessonsContainer) return;
+
+    const lessons = userData.languages[userData.activeLanguage].lessons;
+    lessonsContainer.innerHTML = lessons.map(lesson => `
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">${lesson.title}</h5>
+                <p class="card-text">${lesson.description}</p>
+                <div class="progress lesson-progress mb-3">
+                    <div class="progress-bar ${lesson.completed ? 'bg-success' : 'bg-warning'}" 
+                         role="progressbar" 
+                         style="width: ${lesson.progress}%" 
+                         aria-valuenow="${lesson.progress}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
+                    </div>
+                </div>
+                <button onclick="handleLesson(${lesson.id})" class="btn ${lesson.completed ? 'btn-success' : 'btn-primary'}">
+                    ${lesson.completed ? 'Completed' : 'Continue Lesson'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Add function to handle lesson progress
+function handleLesson(lessonId) {
+    const currentUsername = localStorage.getItem('currentUser');
+    const users = JSON.parse(localStorage.getItem('users'));
+    const userData = users[currentUsername];
+    const activeLanguage = userData.activeLanguage;
+
+    // Find the lesson
+    const lesson = userData.languages[activeLanguage].lessons.find(l => l.id === lessonId);
+    if (!lesson) return;
+
+    // Toggle completion
+    lesson.completed = !lesson.completed;
+    lesson.progress = lesson.completed ? 100 : 0;
+
+    // Calculate overall language progress
+    const totalLessons = userData.languages[activeLanguage].lessons.length;
+    const completedLessons = userData.languages[activeLanguage].lessons.filter(l => l.completed).length;
+    userData.languages[activeLanguage].progress = Math.round((completedLessons / totalLessons) * 100);
+
+    // Update daily goal progress
+    if (lesson.completed) {
+        if(userData.dailyGoal.completed>=20){
+            userData.dailyGoal.completed=20
+        }
+        else{
+        userData.dailyGoal.completed = (userData.dailyGoal.completed || 0) + 20; // Add 20 minutes for each completed lesson
+        }
+    }
+
+    // Save changes
+    users[currentUsername] = userData;
+    localStorage.setItem('users', JSON.stringify(users));
+
+    // Refresh the dashboard
+    initializeDashboard();
 }
 
 function updateLanguageSelector(userData, activeLanguage) {
